@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { ArrowRight, Building2, FileText, Image as ImageIcon, LayoutGrid, Tag, User } from 'lucide-react'
+import { ArrowRight, Building2, FileText, Image as ImageIcon, LayoutGrid, Plus, Sparkles, Tag, User } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
+import { ContentImage } from '@/components/shared/content-image'
 import { TaskListClient } from '@/components/tasks/task-list-client'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { fetchTaskPosts } from '@/lib/task-data'
@@ -57,33 +58,46 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   }))
   const { recipe } = getFactoryState()
   const layoutKey = recipe.taskLayouts[task as keyof typeof recipe.taskLayouts] || `${task}-${task === 'listing' ? 'directory' : 'editorial'}`
-  const shellClass = variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
+  const isImageGallery = task === 'image'
+  const shellClass = isImageGallery
+    ? 'bg-[linear-gradient(180deg,#f2f2f2_0%,#fafafa_48%,#f4f4f4_100%)] text-neutral-950'
+    : variantShells[layoutKey as keyof typeof variantShells] || 'bg-background'
   const Icon = taskIcons[task] || LayoutGrid
 
-  const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
-  const ui = isDark
-    ? {
-        muted: 'text-slate-300',
-        panel: 'border border-white/10 bg-white/6',
-        soft: 'border border-white/10 bg-white/5',
-        input: 'border-white/10 bg-white/6 text-white',
-        button: 'bg-white text-slate-950 hover:bg-slate-200',
-      }
-    : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+  const isDark =
+    !isImageGallery && ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
+  const imageGalleryUi = {
+    muted: 'text-neutral-600',
+    panel: 'rounded-[2rem] border border-black/6 bg-white shadow-[0_24px_64px_rgba(0,0,0,0.06)]',
+    soft: 'rounded-full border border-black/10 bg-white text-neutral-700 shadow-sm',
+    input: 'rounded-xl border border-black/10 bg-white text-neutral-950',
+    button: 'rounded-full bg-[#FF4B1E] text-white shadow-[0_14px_32px_rgba(255,75,30,0.25)] hover:bg-[#e63d14]',
+  }
+  const ui = isImageGallery
+    ? imageGalleryUi
+    : isDark
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-slate-300',
+          panel: 'border border-white/10 bg-white/6',
+          soft: 'border border-white/10 bg-white/5',
+          input: 'border-white/10 bg-white/6 text-white',
+          button: 'bg-white text-slate-950 hover:bg-slate-200',
         }
-      : {
-          muted: 'text-slate-600',
-          panel: 'border border-slate-200 bg-white',
-          soft: 'border border-slate-200 bg-slate-50',
-          input: 'border border-slate-200 bg-white text-slate-950',
-          button: 'bg-slate-950 text-white hover:bg-slate-800',
-        }
+      : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+        ? {
+            muted: 'text-[#72594a]',
+            panel: 'border border-[#dbc6b6] bg-white/90',
+            soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
+            input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
+            button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          }
+        : {
+            muted: 'text-slate-600',
+            panel: 'border border-slate-200 bg-white',
+            soft: 'border border-slate-200 bg-slate-50',
+            input: 'border border-slate-200 bg-white text-slate-950',
+            button: 'bg-slate-950 text-white hover:bg-slate-800',
+          }
 
   return (
     <div className={`min-h-screen ${shellClass}`}>
@@ -170,18 +184,57 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'image-masonry' || layoutKey === 'image-portfolio' ? (
-          <section className="mb-12 grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <section className="mb-12 grid gap-8 lg:grid-cols-[1fr_1.05fr] lg:items-center">
             <div>
-              <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${ui.soft}`}>
-                <Icon className="h-3.5 w-3.5" /> Visual feed
+              <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-600 shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-[#FF4B1E]" />
+                Gallery
               </div>
-              <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em]">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This surface leans into stronger imagery, larger modules, and more expressive spacing so visual content feels materially different from reading and directory pages.</p>
+              <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-[3.25rem]">{taskConfig?.description || 'Latest posts'}</h1>
+              <p className={`mt-5 max-w-xl text-sm leading-relaxed sm:text-base ${ui.muted}`}>
+                Browse curated photography with the same calm shell as the homepage—room for detail, soft cards, and filters that stay out of the way.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={`/create/${task}`} className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold ${ui.button}`}>
+                  <Plus className="h-4 w-4" />
+                  Create
+                </Link>
+                <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-neutral-50">
+                  License a series
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/about" className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-neutral-50">
+                  How we curate
+                </Link>
+              </div>
+              <div className="mt-10 flex flex-wrap gap-3">
+                {[
+                  ['RAW ready', 'High dynamic range'],
+                  ['Fast CDN', 'Optimized delivery'],
+                  ['Clear rights', 'Usage notes per set'],
+                ].map(([t, s]) => (
+                  <div key={t} className="rounded-2xl border border-black/6 bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.05)]">
+                    <p className="text-sm font-semibold text-neutral-950">{t}</p>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-neutral-500">{s}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.panel}`} />
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.soft}`} />
-              <div className={`col-span-2 min-h-[120px] rounded-[2rem] ${ui.panel}`} />
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="relative col-span-2 min-h-[200px] overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.07)] sm:min-h-[240px]">
+                <ContentImage
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop"
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
+                <ContentImage src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+              </div>
+              <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
+                <ContentImage src="https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+              </div>
             </div>
           </section>
         ) : null}
