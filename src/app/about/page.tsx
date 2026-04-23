@@ -1,93 +1,129 @@
-import Link from "next/link";
-import { PageShell } from "@/components/shared/page-shell";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockTeamMembers } from "@/data/mock-data";
-import { SITE_CONFIG } from "@/lib/site-config";
+import Link from 'next/link'
+import { PageShell } from '@/components/shared/page-shell'
+import { Button } from '@/components/ui/button'
+import { SITE_CONFIG } from '@/lib/site-config'
 
 const highlights = [
-  { label: "Creators onboarded", value: "12k+" },
-  { label: "Bookmarks shared", value: "180k" },
-  { label: "Listings published", value: "8.6k" },
-];
+  { label: 'Frames published', value: '48k+' },
+  { label: 'Studios onboarded', value: '1.2k' },
+  { label: 'Countries represented', value: '62' },
+]
 
 const values = [
-  { title: "Curated by people", description: "We believe trusted recommendations beat endless feeds." },
-  { title: "Designed for focus", description: "Clear, calm UI helps you find the next best resource fast." },
-  { title: "Built to share", description: "Collections make collaboration and knowledge flow effortless." },
-];
+  {
+    title: 'Imagery first',
+    description: 'Navigation, spacing, and typography are tuned so photos stay the hero—not competing chrome.',
+  },
+  {
+    title: 'Honest presentation',
+    description: 'Licensing, resolution, and collection context sit beside the work so buyers know what they are getting.',
+  },
+  {
+    title: 'Calm collaboration',
+    description: 'Reviewers, producers, and photographers share one refined surface with fewer distractions.',
+  },
+]
+
+const milestones = [
+  { year: '2022', text: 'Launched the first masonry gallery tuned for ultra-wide canvases.' },
+  { year: '2024', text: 'Introduced instant download packs with transparent usage notes.' },
+  { year: '2026', text: 'Refreshed the premium shell—off-white surfaces, orange CTAs, and serif headlines.' },
+]
 
 export default function AboutPage() {
   return (
     <PageShell
       title={`About ${SITE_CONFIG.name}`}
-      description={`${SITE_CONFIG.name} is a modern platform for creators, communities, and curated business discovery.`}
+      description={`${SITE_CONFIG.name} is a photography-forward platform for studios, independents, and brands that need imagery to feel intentional.`}
       actions={
         <>
-          <Button variant="outline" asChild>
-            <Link href="/team">Meet the Team</Link>
+          <Button variant="outline" className="rounded-full border-black/15" asChild>
+            <Link href="/team">Meet the team</Link>
           </Button>
-          <Button asChild>
-            <Link href="/contact">Contact Us</Link>
+          <Button className="rounded-full bg-[#FF4B1E] text-white hover:bg-[#e63d14]" asChild>
+            <Link href="/contact">Contact us</Link>
           </Button>
         </>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="space-y-4 p-6">
-            <Badge variant="secondary">Our Story</Badge>
-            <h2 className="text-2xl font-semibold text-foreground">
-              A single home for knowledge, discovery, and community.
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {SITE_CONFIG.name} brings together publishing, listings, and social bookmarking so teams can move faster
-              and keep their best resources close.
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlights.map((item) => (
-                <div key={item.label} className="rounded-lg border border-border bg-secondary/40 p-4">
-                  <div className="text-2xl font-semibold text-foreground">{item.value}</div>
-                  <div className="text-xs text-muted-foreground">{item.label}</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-[1.75rem] border border-black/6 bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.05)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Our story</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950">Built because great photography deserves a quieter stage.</h2>
+          <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+            We grew tired of marketplaces that bury imagery under ads, upsells, and noisy feeds. {SITE_CONFIG.name} keeps the rhythm gallery-like—large
+            surfaces, generous whitespace, and typography borrowed from editorial print.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {highlights.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-black/6 bg-[#F2F2F2]/90 p-4">
+                <div className="text-2xl font-semibold text-neutral-950">{item.value}</div>
+                <div className="text-xs font-medium uppercase tracking-[0.16em] text-neutral-500">{item.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="space-y-4">
           {values.map((value) => (
-            <Card key={value.title} className="border-border bg-card">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-foreground">{value.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{value.description}</p>
-              </CardContent>
-            </Card>
+            <div key={value.title} className="rounded-[1.75rem] border border-black/6 bg-white p-6 shadow-[0_16px_44px_rgba(0,0,0,0.04)]">
+              <h3 className="text-lg font-semibold text-neutral-950">{value.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">{value.description}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {mockTeamMembers.map((member) => (
-          <Card key={member.id} className="border-border bg-card transition-transform hover:-translate-y-1">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{member.name}</p>
-                  <p className="text-xs text-muted-foreground">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">{member.bio}</p>
-              <p className="mt-3 text-xs text-muted-foreground">{member.location}</p>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="mt-12 rounded-[1.75rem] border border-black/6 bg-black px-8 py-10 text-white shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Milestones</p>
+        <div className="mt-6 grid gap-6 md:grid-cols-3">
+          {milestones.map((m) => (
+            <div key={m.year}>
+              <p className="text-sm font-semibold text-white">{m.year}</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">{m.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-12 rounded-[1.75rem] border border-black/6 bg-[#F2F2F2] p-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h3 className="text-2xl font-semibold text-neutral-950">See the gallery experience</h3>
+            <p className="mt-2 max-w-xl text-sm text-neutral-600">Browse live photography, collection cards, and the same orange-accent system used across the marketing pages.</p>
+          </div>
+          <Button className="rounded-full bg-[#FF4B1E] text-white hover:bg-[#e63d14]" asChild>
+            <Link href="/images">Open gallery</Link>
+          </Button>
+        </div>
+      </div>
+
+      <div className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[1.75rem] border border-black/6 bg-white p-8 shadow-[0_16px_44px_rgba(0,0,0,0.04)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Explore</p>
+          <h3 className="mt-3 text-xl font-semibold text-neutral-950">Keep browsing</h3>
+          <p className="mt-2 text-sm text-neutral-600">Every page uses the same off-white canvas, black contrast bands, and pill CTAs so orientation stays effortless.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {[
+              { href: '/help', label: 'Help' },
+              { href: '/press', label: 'Press' },
+              { href: '/careers', label: 'Careers' },
+              { href: '/licenses', label: 'Licenses' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-full border border-black/10 bg-[#F2F2F2] px-4 py-2 text-sm font-semibold text-neutral-900 transition hover:border-[#FF4B1E]/40 hover:bg-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col justify-center rounded-[1.75rem] border border-black/6 bg-black p-8 text-white sm:p-10">
+          <p className="text-lg font-medium leading-relaxed text-white/90">&ldquo;We measure success by how little UI visitors notice—because the photography is doing the talking.&rdquo;</p>
+          <p className="mt-4 text-sm font-semibold text-[#FF4B1E]">Internal design principle</p>
+        </div>
       </div>
     </PageShell>
-  );
+  )
 }
