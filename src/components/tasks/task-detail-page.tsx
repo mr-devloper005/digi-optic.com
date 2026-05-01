@@ -143,6 +143,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const content = getContent(post);
   const isClassified = task === "classified";
   const isArticle = task === "article";
+  const isImage = task === "image";
   const category = content.category || post.tags?.[0] || taskConfig?.label || task;
   const description = content.description || post.summary || "Details coming soon.";
   const descriptionHtml = !isArticle ? formatRichHtml(description, "Details coming soon.") : "";
@@ -312,7 +313,24 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
               <>
                 {!isBookmark ? (
                   <div className={cn(isClassified ? "w-full" : "")}>
-                    <TaskImageCarousel images={images} />
+                    {isImage ? (
+                      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {images.map((img, idx) => (
+                          <div key={idx} className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-black/6 bg-neutral-100">
+                            <ContentImage
+                              src={img}
+                              alt={`${post.title} image ${idx + 1}`}
+                              fill
+                              className="object-cover"
+                              intrinsicWidth={800}
+                              intrinsicHeight={600}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <TaskImageCarousel images={images} />
+                    )}
                   </div>
                 ) : null}
 
