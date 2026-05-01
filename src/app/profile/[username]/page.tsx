@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/shared/footer";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { ContentImage } from "@/components/shared/content-image";
+import { RichContent } from "@/components/shared/rich-content";
 import { TaskPostCard } from "@/components/shared/task-post-card";
 import { Button } from "@/components/ui/button";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
@@ -107,85 +108,119 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f2f2f2_0%,#faf8f5_48%,#f4f4f4_100%)]">
       <NavbarShell />
-      <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={breadcrumbData} />
-        <section className="rounded-3xl border border-border/60 bg-white/90 p-8 shadow-sm md:p-12">
-          <div className="grid gap-8 md:grid-cols-[200px_1fr] md:items-start">
-            <div className="flex justify-center md:justify-start">
-              <div className="relative h-36 w-36 overflow-hidden rounded-full border border-border/70 bg-muted">
-                {logoUrl ? (
-                  <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="144px" intrinsicWidth={144} intrinsicHeight={144} />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-muted-foreground">
-                    {post.title.slice(0, 1).toUpperCase()}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground sm:text-4xl">{brandName}</h1>
-              {domain ? (
-                <p className="mt-1 text-sm font-medium text-muted-foreground">{domain}</p>
-              ) : null}
-              <article
-                className="article-content prose prose-slate mt-6 max-w-2xl text-base leading-relaxed prose-p:my-4 prose-a:text-primary prose-a:underline prose-strong:font-semibold"
-                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-              />
-              {website ? (
-                <div className="mt-8">
-                  <Button asChild size="lg" className="px-7 text-base">
-                    <Link href={website} target="_blank" rel="noopener noreferrer">
-                      Visit Official Site
-                    </Link>
+        <section className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <div className="lg:sticky lg:top-24">
+            <div className="overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_24px_64px_rgba(0,0,0,0.06)]">
+              <div className="bg-[linear-gradient(135deg,#f7f3ee_0%,#ffffff_100%)] p-8">
+                <div className="relative h-28 w-28 overflow-hidden rounded-[1.75rem] border border-black/8 bg-white shadow-sm">
+                  {logoUrl ? (
+                    <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="112px" intrinsicWidth={144} intrinsicHeight={144} />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-muted-foreground">
+                      {post.title.slice(0, 1).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.28em] text-neutral-500">Profile</p>
+                <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950">{brandName}</h1>
+                {domain ? <p className="mt-2 text-sm text-neutral-500">{domain}</p> : null}
+                <div className="mt-6 space-y-3">
+                  {website ? (
+                    <Button asChild className="w-full rounded-full bg-[#FF4B1E] text-white hover:bg-[#e63d14]">
+                      <Link href={website} target="_blank" rel="noopener noreferrer">
+                        Visit Official Site
+                      </Link>
+                    </Button>
+                  ) : null}
+                  <Button asChild variant="outline" className="w-full rounded-full border-black/10">
+                    <Link href="/profile">Browse all profiles</Link>
                   </Button>
                 </div>
-              ) : null}
+              </div>
+              <div className="grid gap-3 border-t border-black/6 p-6">
+                <div className="rounded-[1.4rem] border border-black/6 bg-[#faf7f3] px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Positioning</p>
+                  <p className="mt-2 text-sm leading-7 text-neutral-700">A cleaner business and creator profile surface with stronger trust cues and a clearer first impression.</p>
+                </div>
+                <div className="rounded-[1.4rem] border border-black/6 bg-[#faf7f3] px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Use case</p>
+                  <p className="mt-2 text-sm leading-7 text-neutral-700">Best for directory discovery, collaboration checks, and brand research before outreach.</p>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+          <div className="space-y-8">
+            <section className="rounded-[2rem] border border-black/6 bg-white p-8 shadow-[0_24px_64px_rgba(0,0,0,0.06)] sm:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Overview</p>
+              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-neutral-950">Profile detail arranged like an editorial brief instead of a plain directory block.</h2>
+              <RichContent
+                html={descriptionHtml}
+                className="mt-6 max-w-3xl text-neutral-700 prose-p:my-5 prose-h2:text-2xl prose-h3:text-xl"
+              />
+            </section>
 
-        {suggestedArticles.length ? (
-          <section className="mt-12">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">Suggested articles</h2>
-              <Link href="/articles" className="text-sm font-medium text-primary hover:underline">
-                View all
-              </Link>
-            </div>
-            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {suggestedArticles.slice(0, 3).map((article) => (
-                <TaskPostCard
-                  key={article.id}
-                  post={article}
-                  href={buildPostUrl("article", article.slug)}
-                  compact
-                />
+            <section className="grid gap-4 md:grid-cols-3">
+              {[
+                ["Identity first", "Logo, name, and domain stay visible before the longer narrative."],
+                ["Cleaner reading", "Longer descriptions now render as formatted content instead of a dense paragraph."],
+                ["Faster actions", "Primary buttons sit near the profile header so users do not need to hunt for them."],
+              ].map(([title, body]) => (
+                <div key={title} className="rounded-[1.7rem] border border-black/6 bg-white p-5 shadow-[0_18px_48px_rgba(0,0,0,0.05)]">
+                  <p className="text-sm font-semibold text-neutral-950">{title}</p>
+                  <p className="mt-2 text-sm leading-7 text-neutral-600">{body}</p>
+                </div>
               ))}
-            </div>
-            <nav className="mt-6 rounded-2xl border border-border bg-card/60 p-4">
-              <p className="text-sm font-semibold text-foreground">Related links</p>
-              <ul className="mt-2 space-y-2 text-sm">
-                {suggestedArticles.slice(0, 3).map((article) => (
-                  <li key={`related-${article.id}`}>
-                    <Link
-                      href={buildPostUrl("article", article.slug)}
-                      className="text-primary underline-offset-4 hover:underline"
-                    >
-                      {article.title}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link href="/profile" className="text-primary underline-offset-4 hover:underline">
-                    Browse all profiles
+            </section>
+
+            {suggestedArticles.length ? (
+              <section className="rounded-[2rem] border border-black/6 bg-white p-8 shadow-[0_24px_64px_rgba(0,0,0,0.06)]">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500">Related reading</p>
+                    <h2 className="mt-3 text-2xl font-semibold text-neutral-950">Suggested articles</h2>
+                  </div>
+                  <Link href="/articles" className="text-sm font-semibold text-[#FF4B1E] hover:underline">
+                    View all
                   </Link>
-                </li>
-              </ul>
-            </nav>
-          </section>
-        ) : null}
+                </div>
+                <div className="mt-6 grid gap-6 lg:grid-cols-3">
+                  {suggestedArticles.slice(0, 3).map((article) => (
+                    <TaskPostCard
+                      key={article.id}
+                      post={article}
+                      href={buildPostUrl("article", article.slug)}
+                      compact
+                    />
+                  ))}
+                </div>
+                <nav className="mt-6 rounded-[1.5rem] border border-black/6 bg-[#faf7f3] p-5">
+                  <p className="text-sm font-semibold text-neutral-950">Related links</p>
+                  <ul className="mt-3 space-y-2 text-sm">
+                    {suggestedArticles.slice(0, 3).map((article) => (
+                      <li key={`related-${article.id}`}>
+                        <Link
+                          href={buildPostUrl("article", article.slug)}
+                          className="text-[#FF4B1E] underline-offset-4 hover:underline"
+                        >
+                          {article.title}
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
+                      <Link href="/profile" className="text-[#FF4B1E] underline-offset-4 hover:underline">
+                        Browse all profiles
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+              </section>
+            ) : null}
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

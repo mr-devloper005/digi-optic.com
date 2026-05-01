@@ -184,7 +184,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'image-masonry' || layoutKey === 'image-portfolio' ? (
-          <section className="mb-12 grid gap-8 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+          <section className="mb-12 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-600 shadow-sm">
                 <Sparkles className="h-3.5 w-3.5 text-[#FF4B1E]" />
@@ -220,20 +220,28 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                 ))}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="relative col-span-2 min-h-[200px] overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.07)] sm:min-h-[240px]">
-                <ContentImage
-                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
-                <ContentImage src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
-              </div>
-              <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
-                <ContentImage src="https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+            <div className="overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.07)]">
+              <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="relative min-h-[240px] border-b border-black/6 lg:min-h-[520px] lg:border-b-0 lg:border-r">
+                  <ContentImage
+                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=900&fit=crop"
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3 p-3 sm:gap-4 sm:p-4">
+                  <div className="col-span-2 rounded-[1.6rem] border border-black/6 bg-[#faf7f3] p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-neutral-500">Editorial rhythm</p>
+                    <p className="mt-3 text-sm leading-7 text-neutral-700">The page now leans into bigger image moments, tidier cards, and a slower reading pace between galleries.</p>
+                  </div>
+                  <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
+                    <ContentImage src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+                  </div>
+                  <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
+                    <ContentImage src="https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -241,12 +249,25 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
 
         {layoutKey === 'profile-creator' || layoutKey === 'profile-business' ? (
           <section className={`mb-12 rounded-[2.2rem] p-8 shadow-[0_24px_70px_rgba(15,23,42,0.1)] ${ui.panel}`}>
-            <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <div className={`min-h-[240px] rounded-[2rem] ${ui.soft}`} />
+            <div className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+              <div className="grid gap-3">
+                <div className={`rounded-[2rem] p-6 ${ui.soft}`}>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em]">Profile signals</p>
+                  <div className="mt-4 space-y-3">
+                    {['Verified identity cues', 'Clearer company and creator framing', 'Readable profile summaries'].map((item) => (
+                      <div key={item} className="rounded-[1.3rem] border border-black/6 bg-white/70 px-4 py-3 text-sm text-current">{item}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className={`rounded-[2rem] p-6 ${ui.soft}`}>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em]">Why this layout</p>
+                  <p className="mt-3 text-sm leading-7">Profiles work better when identity, trust, and context stay visible before the user enters the longer description.</p>
+                </div>
+              </div>
               <div>
                 <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
                 <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Profiles with stronger identity, trust, and reputation cues.</h1>
-                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout prioritizes the person or business surface first, then lets the feed continue below without borrowing the same visual logic used by articles or listings.</p>
+                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout gives profiles their own rhythm: stronger header identity, a cleaner summary lane, and cards that feel more like polished dossiers than generic posts.</p>
               </div>
             </div>
           </section>

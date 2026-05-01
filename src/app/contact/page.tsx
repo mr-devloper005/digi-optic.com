@@ -37,6 +37,11 @@ export default function ContactPage() {
     return <ContactPageOverride />
   }
 
+  const contactEmail =
+    process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
+    process.env.CONTACT_EMAIL?.trim() ||
+    'hello@digi-optic.com'
+
   return (
     <div className={`image-site-shell min-h-screen ${tone.shell}`}>
       <NavbarShell />
@@ -71,6 +76,24 @@ export default function ContactPage() {
                   <p className="text-sm font-semibold text-neutral-950">Where we work</p>
                   <p className="mt-1 text-xs leading-relaxed text-neutral-600">Distributed across North America and Europe with on-site shoots coordinated locally.</p>
                 </div>
+              </div>
+            </div>
+            <div className={`mt-8 rounded-[1.75rem] p-5 ${tone.panel}`}>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">Direct email</p>
+              <p className="mt-3 text-lg font-semibold text-neutral-950">{contactEmail}</p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className={`inline-flex h-11 items-center justify-center px-6 text-sm font-semibold shadow-[0_14px_32px_rgba(255,75,30,0.25)] ${tone.action}`}
+                >
+                  Email us
+                </a>
+                <a
+                  href={`mailto:${contactEmail}?subject=${encodeURIComponent('Project inquiry')}`}
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
+                >
+                  Project inquiry
+                </a>
               </div>
             </div>
           </div>
@@ -113,6 +136,13 @@ export default function ContactPage() {
               </button>
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
+              Or write directly to{' '}
+              <a href={`mailto:${contactEmail}`} className="font-semibold text-[#FF4B1E] hover:underline">
+                {contactEmail}
+              </a>
+              .
+            </p>
+            <p className="mt-2 text-center text-sm text-neutral-600">
               Prefer self-serve?{' '}
               <Link href="/help" className="font-semibold text-[#FF4B1E] hover:underline">
                 Visit the help center

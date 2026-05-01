@@ -113,6 +113,78 @@ export function TaskPostCard({
   const { recipe } = getFactoryState()
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
+  const isImageVariant = variant === 'image'
+  const isProfileVariant = variant === 'profile'
+
+  if (isImageVariant) {
+    return (
+      <Link href={href} className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_24px_64px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(0,0,0,0.1)]">
+        <div className="relative aspect-[4/5] overflow-hidden bg-[#ebe7e1]">
+          <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" intrinsicWidth={960} intrinsicHeight={1200} />
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between p-4">
+            <span className="inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-800 backdrop-blur">
+              <Tag className="h-3.5 w-3.5" />
+              {category}
+            </span>
+            <span className="rounded-full bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
+              Curated
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-500">Image story</p>
+              <h3 className="mt-3 line-clamp-2 text-2xl font-semibold leading-tight text-neutral-950">{post.title}</h3>
+            </div>
+            <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-neutral-400 transition group-hover:text-neutral-900" />
+          </div>
+          <p className="mt-4 line-clamp-4 text-sm leading-7 text-neutral-600">
+            {getExcerpt(content.description || post.summary, compact ? 120 : 170) || 'Explore this image set.'}
+          </p>
+          <div className="mt-auto flex items-center justify-between gap-4 pt-6">
+            <div className="flex flex-wrap gap-3 text-xs text-neutral-500">
+              {content.location ? <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{content.location}</span> : null}
+              {content.email ? <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />Contact</span> : null}
+            </div>
+            <span className="text-sm font-semibold text-[#FF4B1E]">Open gallery</span>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
+  if (isProfileVariant) {
+    return (
+      <Link href={href} className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-black/6 bg-white shadow-[0_20px_56px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_72px_rgba(0,0,0,0.1)]">
+        <div className="border-b border-black/6 bg-[linear-gradient(135deg,#f7f3ee_0%,#ffffff_100%)] p-6">
+          <div className="flex items-start gap-4">
+            <div className="relative h-20 w-20 overflow-hidden rounded-[1.4rem] border border-black/8 bg-white shadow-sm">
+              <ContentImage src={image} alt={altText} fill sizes="96px" quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={240} intrinsicHeight={240} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#111111] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
+                <Tag className="h-3.5 w-3.5" />
+                {category}
+              </span>
+              <h3 className="mt-3 line-clamp-2 text-2xl font-semibold leading-tight text-neutral-950">{post.title}</h3>
+              <p className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">Profile detail</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-1 flex-col p-6">
+          <p className="line-clamp-4 text-sm leading-7 text-neutral-600">
+            {getExcerpt(content.description || post.summary, compact ? 135 : 190) || 'View this profile.'}
+          </p>
+          <div className="mt-5 space-y-2 text-xs text-neutral-500">
+            {content.location ? <div className="inline-flex items-center gap-2"><MapPin className="h-3.5 w-3.5" />{content.location}</div> : null}
+            {content.email ? <div className="inline-flex items-center gap-2"><Mail className="h-3.5 w-3.5" />{content.email}</div> : null}
+          </div>
+          <div className="mt-auto pt-6 text-sm font-semibold text-[#FF4B1E]">View profile</div>
+        </div>
+      </Link>
+    )
+  }
 
   if (isDirectorySurface) {
     const cardTone = recipe.brandPack === 'market-utility'
