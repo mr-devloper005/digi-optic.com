@@ -20,17 +20,39 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
-  async redirects() {
-    return [
-      {
-        source: "/images",
-        destination: "/image-sharing",
-        permanent: true,
-      },
       {
         source: "/images/:slug*",
         destination: "/image-sharing/:slug*",
         permanent: true,
+      },
+    ];
+  },
+
+
+  async redirects() {
+    return [
+      {
+        source: '/images',
+        destination: '/image',
+        permanent: true,
+      },
+      {
+        source: '/images/:slug*',
+        destination: '/image/:slug*',
+        permanent: true,
+      },
+    ];
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/image',
+        destination: '/images',
+      },
+      {
+        source: '/image/:slug*',
+        destination: '/images/:slug*',
       },
     ];
   },
