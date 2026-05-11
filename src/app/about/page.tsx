@@ -36,14 +36,9 @@ export default function AboutPage() {
       title={`About ${SITE_CONFIG.name}`}
       description={`${SITE_CONFIG.name} is a photography-forward platform for studios, independents, and brands that need imagery to feel intentional.`}
       actions={
-        <>
-          <Button variant="outline" className="rounded-full border-black/15" asChild>
-            <Link href="/team">Meet the team</Link>
-          </Button>
-          <Button className="rounded-full bg-[#FF4B1E] text-white hover:bg-[#e63d14]" asChild>
-            <Link href="/contact">Contact us</Link>
-          </Button>
-        </>
+        <Button className="rounded-full bg-[#FF4B1E] text-white hover:bg-[#e63d14]" asChild>
+          <Link href="/contact">Contact us</Link>
+        </Button>
       }
     >
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
@@ -105,7 +100,6 @@ export default function AboutPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             {[
               { href: '/help', label: 'Help' },
-              { href: '/press', label: 'Press' },
               { href: '/careers', label: 'Careers' },
               { href: '/licenses', label: 'Licenses' },
             ].map((item) => (
