@@ -104,10 +104,6 @@ export default function CareersPage() {
             <p className="mt-3 text-sm leading-relaxed text-white/75">
               No résumé keyword games—send work that shows restraint. Portfolios with fewer, stronger projects beat volume every time.
             </p>
-            <Link href="/team" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white hover:underline">
-              Meet the team
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </div>
       </div>

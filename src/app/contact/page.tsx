@@ -78,25 +78,7 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-            <div className={`mt-8 rounded-[1.75rem] p-5 ${tone.panel}`}>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">Direct email</p>
-              <p className="mt-3 text-lg font-semibold text-neutral-950">{contactEmail}</p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className={`inline-flex h-11 items-center justify-center px-6 text-sm font-semibold shadow-[0_14px_32px_rgba(255,75,30,0.25)] ${tone.action}`}
-                >
-                  Email us
-                </a>
-                <a
-                  href={`mailto:${contactEmail}?subject=${encodeURIComponent('Project inquiry')}`}
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
-                >
-                  Project inquiry
-                </a>
-              </div>
-            </div>
-          </div>
+                      </div>
 
           <div className={`p-8 sm:p-10 ${tone.panel}`}>
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-950">Send a message</h2>

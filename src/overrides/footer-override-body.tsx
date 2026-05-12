@@ -20,9 +20,7 @@ const categories = [
 ]
 
 const company = [
-  { name: 'Team', href: '/team' },
   { name: 'Careers', href: '/careers' },
-  { name: 'Press', href: '/press' },
   { name: 'Licenses', href: '/licenses' },
 ]
 
@@ -101,21 +99,8 @@ export function FooterOverrideBody() {
             </ul>
           </div>
         </div>
-        <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row">
+        <div className="mt-14 border-t border-white/10 pt-8 text-center">
           <p className="text-sm text-white/45">&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.</p>
-          <div className="flex gap-3">
-            {social.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-white/15 bg-white/5 p-2.5 text-white/70 transition hover:bg-white/10 hover:text-white"
-              >
-                <item.icon className="h-4 w-4" />
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
     </footer>
