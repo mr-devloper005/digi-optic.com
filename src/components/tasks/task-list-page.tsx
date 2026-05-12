@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { ArrowRight, Building2, FileText, Image as ImageIcon, LayoutGrid, Plus, Sparkles, Tag, User } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -11,6 +12,17 @@ import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { taskIntroCopy } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { TASK_LIST_PAGE_OVERRIDE_ENABLED, TaskListPageOverride } from '@/overrides/task-list-page'
+import type { SitePost } from '@/lib/site-connector'
+
+function getPostImage(post?: SitePost | null) {
+  const media = Array.isArray(post?.media) ? post?.media : []
+  const mediaUrl = media.find((item) => typeof item?.url === 'string' && item.url)?.url
+  const contentImage =
+    typeof post?.content === 'object' && post?.content && Array.isArray((post.content as { images?: string[] }).images)
+      ? (post.content as { images: string[] }).images.find((url: unknown) => typeof url === 'string' && url)
+      : null
+  return mediaUrl || contentImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=800&fit=crop'
+}
 
 const taskIcons: Record<TaskKey, any> = {
   listing: Building2,
@@ -224,8 +236,8 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
               <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="relative min-h-[240px] border-b border-black/6 lg:min-h-[520px] lg:border-b-0 lg:border-r">
                   <ContentImage
-                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=900&fit=crop"
-                    alt=""
+                    src={posts.length ? getPostImage(posts[0]) : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=900&fit=crop"}
+                    alt={posts.length ? posts[0].title : ""}
                     fill
                     className="object-cover"
                   />
@@ -236,10 +248,10 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                     <p className="mt-3 text-sm leading-7 text-neutral-700">The page now leans into bigger image moments, tidier cards, and a slower reading pace between galleries.</p>
                   </div>
                   <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
-                    <ContentImage src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+                    <ContentImage src={posts.length > 1 ? getPostImage(posts[1]) : "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop"} alt={posts.length > 1 ? posts[1].title : ""} fill className="object-cover" />
                   </div>
                   <div className="relative min-h-[140px] overflow-hidden rounded-2xl border border-black/6 shadow-sm sm:min-h-[160px]">
-                    <ContentImage src="https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=800&h=600&fit=crop" alt="" fill className="object-cover" />
+                    <ContentImage src={posts.length > 2 ? getPostImage(posts[2]) : "https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=800&h=600&fit=crop"} alt={posts.length > 2 ? posts[2].title : ""} fill className="object-cover" />
                   </div>
                 </div>
               </div>
@@ -325,7 +337,9 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           </section>
         ) : null}
 
-        <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
+        <Suspense fallback={<div className={`rounded-2xl border border-dashed p-10 text-center ${ui.soft}`}>Loading posts...</div>}>
+          <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
+        </Suspense>
       </main>
       <Footer />
     </div>

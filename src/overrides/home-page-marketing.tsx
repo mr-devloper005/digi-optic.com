@@ -185,6 +185,52 @@ export async function HomePageMarketing() {
           </div>
         </section>
 
+        <section className="border-b border-black/5 bg-[#F2F2F2] py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Featured gallery</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+                Discover stunning photography
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+                Explore our curated collection of premium images from talented photographers worldwide.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {posts.slice(0, 8).map((post, index) => (
+                <Link
+                  key={post.id}
+                  href={`/images/${post.slug}`}
+                  className="group relative overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_12px_32px_rgba(0,0,0,0.04)] transition hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
+                >
+                  <div className="aspect-square w-full">
+                    <ContentImage 
+                      src={getPostImage(post)} 
+                      alt={post.title} 
+                      fill 
+                      className="object-cover transition duration-300 group-hover:scale-105" 
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-sm font-semibold text-white truncate">{post.title}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Link
+                href="/images"
+                className="inline-flex items-center gap-2 rounded-full bg-[#FF4B1E] px-8 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(255,75,30,0.35)] transition hover:bg-[#e63d14]"
+              >
+                View all images
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="border-b border-black/5 bg-white py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
@@ -238,44 +284,7 @@ export async function HomePageMarketing() {
           </div>
         </section>
 
-        <section className="border-y border-black/5 bg-[#F2F2F2] py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF4B1E]">Voices</p>
-                <h2 className="mt-2 text-3xl font-semibold tracking-tight">Loved by visual teams</h2>
-              </div>
-              <Link href="/images" className="text-sm font-semibold text-neutral-900 underline-offset-4 hover:underline">
-                View featured work
-              </Link>
-            </div>
-            <div className="mt-12 flex gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {testimonials.map((t) => (
-                <div
-                  key={t.name}
-                  className="min-w-[min(100%,320px)] shrink-0 rounded-[1.5rem] border border-black/6 bg-white p-6 shadow-[0_18px_48px_rgba(0,0,0,0.06)]"
-                >
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-[#FF4B1E] text-[#FF4B1E]" />
-                    ))}
-                  </div>
-                  <p className="mt-4 text-sm leading-relaxed text-neutral-700">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="mt-6 flex items-center gap-3">
-                    <div className="relative h-11 w-11 overflow-hidden rounded-full border border-black/5">
-                      <ContentImage src={t.avatar} alt={t.name} fill className="object-cover" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-neutral-950">{t.name}</p>
-                      <p className="text-xs text-neutral-500">{t.role}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+        
         <section className="bg-white py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="overflow-hidden rounded-[2rem] bg-black text-white">
@@ -347,7 +356,16 @@ export async function HomePageMarketing() {
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {['https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=700&fit=crop', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=500&fit=crop', 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=500&fit=crop', 'https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=600&h=700&fit=crop'].map((src, idx) => (
+              {posts.length ? posts.slice(5, 9).map((post, idx) => (
+                <div key={post.id} className={`relative overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_18px_48px_rgba(0,0,0,0.06)] ${idx === 0 ? 'row-span-2 min-h-[320px]' : 'min-h-[150px]'}`}>
+                  <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
+                </div>
+              )) : [
+                'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=700&fit=crop',
+                'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=500&fit=crop',
+                'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=500&fit=crop',
+                'https://images.unsplash.com/photo-1501785883141-7663f64f6680?w=600&h=700&fit=crop'
+              ].map((src, idx) => (
                 <div key={src} className={`relative overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_18px_48px_rgba(0,0,0,0.06)] ${idx === 0 ? 'row-span-2 min-h-[320px]' : 'min-h-[150px]'}`}>
                   <ContentImage src={src} alt="Gallery preview" fill className="object-cover" />
                 </div>
@@ -364,9 +382,7 @@ export async function HomePageMarketing() {
             <div className="flex flex-wrap justify-center gap-3">
               {[
                 { href: '/help', label: 'Help' },
-                { href: '/team', label: 'Team' },
                 { href: '/careers', label: 'Careers' },
-                { href: '/press', label: 'Press' },
                 { href: '/privacy', label: 'Privacy' },
               ].map((item) => (
                 <Link
